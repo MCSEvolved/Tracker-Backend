@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MCST_Message.Models;
 using MCST_Message;
+using Microsoft.AspNetCore.Authorization;
+using MCST_Computer.Domain.Models;
 
 namespace MCST_Backend.Controllers
 {
@@ -18,32 +20,41 @@ namespace MCST_Backend.Controllers
             service = _service;
         }
 
-        [HttpPost]
-        [Route("new")]
+        [HttpPost("new")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Message))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult NewMessage([FromBody] Message message)
         {
             service.NewMessage(message);
             return Ok(message);
         }
 
-        [HttpGet]
-        [Route("get/all")]
-        public List<Message> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+        [HttpGet("get/all")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Message>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
-            return service.GetAll(page, pageSize);
+            var messages = service.GetAll(page, pageSize);
+            return messages.Count() < 1 ? NotFound() : Ok(messages);
         }
 
-        [HttpGet]
-        [Route("get/by-source")]
-        public List<Message> GetBySource([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] MessageSource source)
+        [HttpGet("get/by-source")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Message>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetBySource([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] MessageSource source)
         {
-            return service.GetBySource(page, pageSize, source);
+            var messages = service.GetBySource(page, pageSize, source);
+            return messages.Count() < 1 ? NotFound() : Ok(messages);
         }
-        [HttpGet]
-        [Route("get/by-identifiers")]
-        public List<Message> GetByIdentifier([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string[] identifiers)
+
+        [HttpGet("get/by-identifiers")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Message>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetByIdentifier([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string[] identifiers)
         {
-            return service.GetByIdentifiers(page, pageSize, identifiers);
+            var messages = service.GetByIdentifiers(page, pageSize, identifiers);
+            return messages.Count() < 1 ? NotFound() : Ok(messages);
         }
     }
 }

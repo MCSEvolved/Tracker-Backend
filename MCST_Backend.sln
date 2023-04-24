@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCST_Computer", "MCST_Computer\MCST_Computer.csproj", "{14CFA7DF-DE50-4FB3-92CC-23D86D185DDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{5B65D236-524C-48EC-9814-B631BBCE9BB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B65D236-524C-48EC-9814-B631BBCE9BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B65D236-524C-48EC-9814-B631BBCE9BB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14CFA7DF-DE50-4FB3-92CC-23D86D185DDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14CFA7DF-DE50-4FB3-92CC-23D86D185DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14CFA7DF-DE50-4FB3-92CC-23D86D185DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14CFA7DF-DE50-4FB3-92CC-23D86D185DDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

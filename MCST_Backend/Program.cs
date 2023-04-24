@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using MCST_Message.Data;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MCST_Computer.Domain;
+using MCST_Computer.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +20,23 @@ builder.Services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(b
 
 builder.Services.AddTransient<MessageService>();
 builder.Services.AddTransient<MessageRepository>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddTransient<ComputerService>();
+builder.Services.AddTransient<ComputerRepository>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// 1. Add Authentication Services
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.Authority = $"https://{builder.Configuration["Auth0:Domain"]}/";
+    options.Audience = builder.Configuration["Auth0:Audience"];
+});
 
 
 
@@ -41,3 +57,4 @@ app.MapControllers();
 
 app.Run();
 
+ 
