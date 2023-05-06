@@ -16,18 +16,18 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
     <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
     <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.29.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Controllers\" />
-    <None Remove="WebsocketControllers\" />
+    <None Remove="SignalRHubs\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="WebsocketControllers\" />
+    <Folder Include="SignalRHubs\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MCST_Message\MCST_Message.csproj">

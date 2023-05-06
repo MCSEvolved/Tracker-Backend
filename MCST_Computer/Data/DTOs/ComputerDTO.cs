@@ -9,7 +9,7 @@ namespace MCST_Computer.Data.DTOs
 {
 	public class ComputerDTO
 	{
-        public ComputerDTO(int id, string label, int systemId, ComputerDevice device, int fuelLimit, string status, int fuelLevel, long lastUpdate)
+        public ComputerDTO(int id, string label, int systemId, ComputerDevice device, int fuelLimit, string status, int fuelLevel, long lastUpdate, bool hasModem)
         {
             Id = id;
             Label = label;
@@ -19,6 +19,7 @@ namespace MCST_Computer.Data.DTOs
             Status = status;
             FuelLevel = fuelLevel;
             LastUpdate = lastUpdate;
+            HasModem = hasModem;
         }
 
         [BsonId]
@@ -30,6 +31,7 @@ namespace MCST_Computer.Data.DTOs
         public string Status { get; set; }
         public int FuelLevel { get; set; } 
         public long LastUpdate { get; set; }
+        public bool HasModem { get; set; }
     }
 }
 

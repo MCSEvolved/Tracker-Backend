@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MCST_Computer.Domain;
 using MCST_Computer.Data;
+using MCST_Backend.SignalRHubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+builder.Services.AddSignalR();
+
+
 builder.Services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
 
 builder.Services.AddTransient<MessageService>();
@@ -54,6 +58,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ServerHub>("/ws/server");
+app.MapHub<ClientHub>("/ws/client");
 
 app.Run();
 
