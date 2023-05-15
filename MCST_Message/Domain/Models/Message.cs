@@ -8,11 +8,13 @@ namespace MCST_Message.Models
 {
 	public enum MessageSource
 	{
+        INVALID,
 		Service,
 		Computer
 	}
 	public enum MessageType
 	{
+        INVALID,
 		Error,
 		Warning,
 		Info,
@@ -21,29 +23,28 @@ namespace MCST_Message.Models
 
 	public class Message
 	{
-        //public Message(MessageType type, string content, long creationTime, dynamic metaData)
-        //{
-        //    Type = type;
-        //    Content = content;
-        //    MetaData = metaData;
-        //    CreationTime = creationTime;
-        //}
-        [Required]
         public MessageType Type { get; set; }
 
-        [Required]
         public MessageSource Source { get; set; }
 
-        [Required]
-        public string? Content { get; set; }
+        public string Content { get; set; } = default!;
 
 		public JsonElement? MetaData { get; set; }
 
-        [Required]
-        public long CreationTime { get; set; } = DateTimeOffset.Now.ToUnixTimeSeconds();
+        public long CreationTime { get; private set; } = DateTimeOffset.Now.ToUnixTimeSeconds();
 
-        [Required]
         public string Identifier { get; set; } = "Unknown";
+
+
+        public bool IsValid()
+        {
+			return Type != MessageType.INVALID && Source != MessageSource.INVALID && Content != null && CreationTime > 0;
+        }
+
+		public void OverrideCreationTime(long creationTime)
+		{
+			CreationTime = creationTime;
+		}
 	}
 }
 

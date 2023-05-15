@@ -9,15 +9,25 @@ namespace MCST_Computer.Domain
 	public class ComputerService
 	{
 		private readonly ComputerRepository repo;
+        private readonly IComputerController controller;
 
-        public ComputerService(ComputerRepository repo)
+        public ComputerService(ComputerRepository repo, IComputerController controller)
         {
             this.repo = repo;
+            this.controller = controller;
         }
 
-        public void NewComputer(Computer c)
+        public bool NewComputer(Computer c)
         {
-            repo.InsertComputer(new ComputerDTO(c.Id, c.Label, c.SystemId, c.Device, c.FuelLimit, c.Status, c.FuelLevel, c.LastUpdate));
+            if (c.IsValid())
+            {
+                controller.NewComputerOverWS(c);
+                repo.InsertComputer(new ComputerDTO(c.Id, c.Label, c.SystemId, c.Device, c.FuelLimit, c.Status, c.FuelLevel, c.LastUpdate, c.HasModem));
+                return true;
+            } else
+            {
+                return false;
+            }
         }
 
         public List<Computer> GetAllComputers()
@@ -26,7 +36,7 @@ namespace MCST_Computer.Domain
             List<Computer> computers = new List<Computer>();
             foreach (var computerDTO in computerDTOs)
             {
-                Computer computer = new Computer
+                Models.Computer computer = new Computer
                 {
                     Id = computerDTO.Id,
                     Label = computerDTO.Label,
@@ -35,8 +45,9 @@ namespace MCST_Computer.Domain
                     FuelLevel = computerDTO.FuelLevel,
                     Status = computerDTO.Status,
                     FuelLimit = computerDTO.FuelLimit,
-                    LastUpdate = computerDTO.LastUpdate
+                    HasModem = computerDTO.HasModem
                 };
+                computer.OverrideLastUpdate(computerDTO.LastUpdate);
                 computers.Add(computer);
             }
             return computers;
@@ -57,8 +68,9 @@ namespace MCST_Computer.Domain
                     FuelLevel = computerDTO.FuelLevel,
                     Status = computerDTO.Status,
                     FuelLimit = computerDTO.FuelLimit,
-                    LastUpdate = computerDTO.LastUpdate
+                    HasModem = computerDTO.HasModem
                 };
+                computer.OverrideLastUpdate(computerDTO.LastUpdate);
                 computers.Add(computer);
             }
             return computers;
@@ -80,8 +92,9 @@ namespace MCST_Computer.Domain
                 FuelLevel = computerDTO.FuelLevel,
                 Status = computerDTO.Status,
                 FuelLimit = computerDTO.FuelLimit,
-                LastUpdate = computerDTO.LastUpdate
+                HasModem = computerDTO.HasModem
             };
+            computer.OverrideLastUpdate(computerDTO.LastUpdate);
 
             return computer;
         }

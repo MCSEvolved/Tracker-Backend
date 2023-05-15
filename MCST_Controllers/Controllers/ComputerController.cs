@@ -2,35 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MCST_Computer;
 using MCST_Computer.Domain;
 using MCST_Computer.Domain.Models;
-using MCST_Message.Models;
+using MCST_Controller.SignalRHubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace MCST_Backend.Controllers
+namespace MCST_Controller.Controllers
 {
     [ApiController]
     [Route("api/computer")]
-    public class ComputerController : ControllerBase
+    public class ComputerController : ControllerBase, IComputerController
     {
         private readonly ComputerService service;
+        private readonly IHubContext<ClientHub> hub;
 
-        public ComputerController(ComputerService service)
+        public ComputerController(ComputerService service, IHubContext<ClientHub> hub)
         {
             this.service = service;
+            this.hub = hub;
         }
 
         [HttpPost("new")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Computer))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult NewComputer([FromBody] Computer computer)
         {
-            service.NewComputer(computer);
-            return Ok(computer);
+            if (service.NewComputer(computer))
+            {
+                return Ok(computer);
+            } else
+            {
+                return BadRequest(computer);
+            }
         }
 
         [HttpGet("get/all")]
@@ -60,6 +68,9 @@ namespace MCST_Backend.Controllers
             return computers.Count() < 1 ? NotFound() : Ok(computers);
         }
 
-
+        public async void NewComputerOverWS(Computer computer)
+        {
+            await hub.Clients.All.SendAsync("NewComputer", computer);
+        }
     }
 }

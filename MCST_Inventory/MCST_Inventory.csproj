@@ -7,24 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Data\" />
     <None Remove="Domain\" />
     <None Remove="Domain\Models\" />
+    <None Remove="Data\" />
     <None Remove="Data\DTOs\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Domain\" />
     <Folder Include="Domain\Models\" />
+    <Folder Include="Data\" />
     <Folder Include="Data\DTOs\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
     <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
   </ItemGroup>
 </Project>

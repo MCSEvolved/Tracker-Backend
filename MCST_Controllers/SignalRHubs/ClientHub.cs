@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.SignalR;
 
-namespace MCST_Backend.SignalRHubs
+namespace MCST_Controller.SignalRHubs
 {
 	public class ClientHub : Hub
 	{

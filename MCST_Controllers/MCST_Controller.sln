@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1705.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCST_Controller", "MCST_Controller.csproj", "{A57670FC-F4C9-444E-B2F6-F46BB45B1069}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A57670FC-F4C9-444E-B2F6-F46BB45B1069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A57670FC-F4C9-444E-B2F6-F46BB45B1069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A57670FC-F4C9-444E-B2F6-F46BB45B1069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A57670FC-F4C9-444E-B2F6-F46BB45B1069}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F4531E8-523B-46E7-B480-5EDB73C09977}
+	EndGlobalSection
+EndGlobal
