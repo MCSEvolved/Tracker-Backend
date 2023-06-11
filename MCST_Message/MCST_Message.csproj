@@ -19,12 +19,17 @@
     <Folder Include="Data\DTOs\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
-    <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.2" />
+    <PackageReference Include="MongoDB.Bson" Version="2.19.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MCST_Enums\MCST_Enums.csproj" />
+    <ProjectReference Include="..\MCST_ControllerInterfaceLayer\MCST_ControllerInterfaceLayer.csproj" />
+    <ProjectReference Include="..\MCST_Models\MCST_Models.csproj" />
   </ItemGroup>
 </Project>

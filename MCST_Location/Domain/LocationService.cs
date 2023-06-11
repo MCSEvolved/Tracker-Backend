@@ -1,26 +1,27 @@
 ﻿using System;
+using MCST_ControllerInterfaceLayer.Interfaces;
 using MCST_Location.Data;
 using MCST_Location.Data.DTOs;
-using MCST_Location.Domain.Models;
+using MCST_Models;
 
 namespace MCST_Location.Domain
 {
 	public class LocationService
 	{
 		private readonly LocationRepository repo;
-        private readonly ILocationController controller;
+        private readonly IWsService clientWsService;
 
-        public LocationService(LocationRepository repo, ILocationController controller)
+        public LocationService(LocationRepository repo, IWsService _clientWsService)
         {
             this.repo = repo;
-            this.controller = controller;
+            this.clientWsService = _clientWsService;
         }
 
         public bool NewLocation(Location location)
         {
             if (location.IsValid())
             {
-                controller.NewLocationOverWS(location);
+                clientWsService.NewLocationOverWS(location);
                 repo.InsertLocation(new LocationDTO(location.ComputerId, new CoordinatesDTO(location.Coordinates.X, location.Coordinates.Y, location.Coordinates.Z), location.Dimension, location.CreatedOn));
                 return true;
             } else

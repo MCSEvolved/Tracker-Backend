@@ -1,9 +1,11 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace MCST_Controller.SignalRHubs
 {
-	public class ClientHub : Hub
+    [Authorize(Policy = "IsGuest")]
+    public class ClientHub : Hub
 	{
 		
 	}

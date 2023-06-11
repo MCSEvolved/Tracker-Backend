@@ -4,6 +4,7 @@ using MCST_Computer.Domain.Models;
 using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MCST_Enums;
 
 namespace MCST_Computer.Data.DTOs
 {

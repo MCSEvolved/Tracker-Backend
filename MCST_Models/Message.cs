@@ -2,25 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MCST_Enums;
 using Newtonsoft.Json.Converters;
 
-namespace MCST_Message.Models
+namespace MCST_Models
 {
-	public enum MessageSource
-	{
-        INVALID,
-		Service,
-		Computer
-	}
-	public enum MessageType
-	{
-        INVALID,
-		Error,
-		Warning,
-		Info,
-		Debug
-	}
-
 	public class Message
 	{
         public MessageType Type { get; set; }

@@ -1,33 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using MCST_Controller.SignalRHubs;
-using Microsoft.AspNetCore.SignalR;
 using MongoDB.Driver;
 using MCST_Message.Domain;
-using MCST_Message.Models;
-using MCST_Message;
+using MCST_Enums;
+using MCST_Models;
 
 namespace MCST_Controller.Controllers
 {
     [ApiController]
     [Route("api/message")]
-    public class MessageController : ControllerBase, IMessageController
+    public class MessageController : ControllerBase
     {
         private readonly MessageService service;
-        private readonly IHubContext<ClientHub> hub;
 
-        public MessageController(MessageService _service, IHubContext<ClientHub> hub)
+        public MessageController(MessageService _service)
         {
             service = _service;
-            this.hub = hub;
         }
 
         [HttpPost("new")]
-        [Authorize]
+        [Authorize(Policy = "IsService")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Message))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -45,6 +37,7 @@ namespace MCST_Controller.Controllers
         [HttpGet("get/all")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Message>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Policy = "IsGuest")]
         public IActionResult GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             var messages = service.GetAll(page, pageSize);
@@ -54,6 +47,7 @@ namespace MCST_Controller.Controllers
         [HttpGet("get/by-source")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Message>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Policy = "IsGuest")]
         public IActionResult GetBySource([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] MessageSource source)
         {
             var messages = service.GetBySource(page, pageSize, source);
@@ -63,16 +57,14 @@ namespace MCST_Controller.Controllers
         [HttpGet("get/by-identifiers")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Message>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Policy = "IsGuest")]
         public IActionResult GetByIdentifier([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string[] identifiers)
         {
             var messages = service.GetByIdentifiers(page, pageSize, identifiers);
             return messages.Count() < 1 ? NotFound() : Ok(messages);
         }
 
-        public async void NewMessageOverWS(Message message)
-        {
-            await hub.Clients.All.SendAsync("NewMessage", message);
-        }
+        
     }
 }
 

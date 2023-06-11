@@ -14,20 +14,23 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
-    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
-    <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.2" />
+    <PackageReference Include="MongoDB.Bson" Version="2.19.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+    <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Controllers\" />
     <None Remove="SignalRHubs\" />
+    <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="SignalRHubs\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MCST_Command\MCST_Command.csproj">
@@ -46,6 +49,21 @@
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
     <ProjectReference Include="..\MCST_Message\MCST_Message.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\MCST_Notification\MCST_Notification.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\MCST_Enums\MCST_Enums.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\MCST_Auth\MCST_Auth.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\MCST_ControllerInterfaceLayer\MCST_ControllerInterfaceLayer.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\MCST_Models\MCST_Models.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>

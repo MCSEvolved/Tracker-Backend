@@ -4,23 +4,21 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>cccc9d40-f633-4d41-9687-222b7de8d689</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Domain\" />
     <None Remove="Domain\Models\" />
-    <None Remove="Data\" />
-    <None Remove="Data\DTOs\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\" />
     <Folder Include="Domain\Models\" />
-    <Folder Include="Data\" />
-    <Folder Include="Data\DTOs\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MongoDB.Bson" Version="2.19.2" />
-    <PackageReference Include="MongoDB.Driver" Version="2.19.2" />
+    <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MCST_ControllerInterfaceLayer\MCST_ControllerInterfaceLayer.csproj" />

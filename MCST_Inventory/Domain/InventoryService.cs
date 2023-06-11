@@ -1,25 +1,26 @@
 ﻿using System;
+using MCST_ControllerInterfaceLayer.Interfaces;
 using MCST_Inventory.Data;
 using MCST_Inventory.Data.DTOs;
-using MCST_Inventory.Domain.Models;
+using MCST_Models;
 
 namespace MCST_Inventory.Domain
 {
 	public class InventoryService
 	{
         private readonly InventoryRepository repo;
-        private readonly IInventoryController inventoryController
+        private readonly IWsService clientWsService
 			;
 
-        public InventoryService(InventoryRepository _inventoryRepository, IInventoryController _InventoryController)
+        public InventoryService(InventoryRepository _inventoryRepository, IWsService _clientWsService)
 		{
             repo = _inventoryRepository;
-            inventoryController = _InventoryController;
+            clientWsService = _clientWsService;
         }
 
 		public Inventory? RequestInventory(int computerId)
 		{
-			inventoryController.SendRequestInventoryCommand(computerId);
+            clientWsService.SendRequestInventoryCommand(computerId);
 
 			InventoryDTO inventoryDTO = repo.GetInventory(computerId);
 			if (inventoryDTO == null)
@@ -48,13 +49,14 @@ namespace MCST_Inventory.Domain
 		{
 			if (inventory.IsValid())
 			{
-				inventoryController.NewInventoryOverWS(inventory);
+				
 				List<ItemDTO> itemDTOs = new List<ItemDTO>();
 				foreach (Item item in inventory.Items)
 				{
 					itemDTOs.Add(new ItemDTO(item.Name, item.Size, item.StackSize, item.Slot));
 				}
-				repo.InsertInventory(new InventoryDTO(inventory.ComputerId, itemDTOs, inventory.CreatedOn));
+                clientWsService.NewInventoryOverWS(inventory);
+                repo.InsertInventory(new InventoryDTO(inventory.ComputerId, itemDTOs, inventory.CreatedOn));
 				return true;
 			}
 			else

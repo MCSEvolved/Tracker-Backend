@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MCST_Inventory.Domain.Models
+namespace MCST_Models
 {
 	public class Item
 	{

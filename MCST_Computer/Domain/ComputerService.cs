@@ -2,26 +2,32 @@
 using System.Text.Json;
 using MCST_Computer.Data;
 using MCST_Computer.Data.DTOs;
-using MCST_Computer.Domain.Models;
+using MCST_ControllerInterfaceLayer.Interfaces;
+using MCST_Enums;
+using MCST_Models;
 
 namespace MCST_Computer.Domain
 {
 	public class ComputerService
 	{
 		private readonly ComputerRepository repo;
-        private readonly IComputerController controller;
+        private readonly IWsService clientWsService;
+        private readonly INotificationService notificationService;
 
-        public ComputerService(ComputerRepository repo, IComputerController controller)
+        public ComputerService(ComputerRepository repo, IWsService _clientWsService, INotificationService _notificationService)
         {
             this.repo = repo;
-            this.controller = controller;
+            this.clientWsService = _clientWsService;
+            this.notificationService = _notificationService;
         }
+
+  
 
         public bool NewComputer(Computer c)
         {
             if (c.IsValid())
             {
-                controller.NewComputerOverWS(c);
+                clientWsService.NewComputerOverWS(c);
                 repo.InsertComputer(new ComputerDTO(c.Id, c.Label, c.SystemId, c.Device, c.FuelLimit, c.Status, c.FuelLevel, c.LastUpdate, c.HasModem));
                 return true;
             } else
@@ -36,7 +42,7 @@ namespace MCST_Computer.Domain
             List<Computer> computers = new List<Computer>();
             foreach (var computerDTO in computerDTOs)
             {
-                Models.Computer computer = new Computer
+                Computer computer = new Computer
                 {
                     Id = computerDTO.Id,
                     Label = computerDTO.Label,

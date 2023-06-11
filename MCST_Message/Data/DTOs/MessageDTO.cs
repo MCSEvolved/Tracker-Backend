@@ -1,4 +1,5 @@
 ﻿using System;
+using MCST_Enums;
 using MCST_Message.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

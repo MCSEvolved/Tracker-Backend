@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MCST_Location.Domain.Models
+namespace MCST_Models
 {
 	public class Coordinates
 	{

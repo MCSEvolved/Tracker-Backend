@@ -19,8 +19,13 @@
     <Folder Include="Data\DTOs\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+    <PackageReference Include="MongoDB.Bson" Version="2.19.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MCST_ControllerInterfaceLayer\MCST_ControllerInterfaceLayer.csproj" />
+    <ProjectReference Include="..\MCST_Enums\MCST_Enums.csproj" />
+    <ProjectReference Include="..\MCST_Models\MCST_Models.csproj" />
   </ItemGroup>
 </Project>

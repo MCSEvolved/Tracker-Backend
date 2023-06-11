@@ -1,32 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MCST_Computer;
-using MCST_Computer.Domain;
-using MCST_Computer.Domain.Models;
-using MCST_Controller.SignalRHubs;
+﻿using MCST_Computer.Domain;
+using MCST_Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 namespace MCST_Controller.Controllers
 {
     [ApiController]
     [Route("api/computer")]
-    public class ComputerController : ControllerBase, IComputerController
+    public class ComputerController : ControllerBase
     {
         private readonly ComputerService service;
-        private readonly IHubContext<ClientHub> hub;
 
-        public ComputerController(ComputerService service, IHubContext<ClientHub> hub)
-        {
+        public ComputerController(ComputerService service) {
             this.service = service;
-            this.hub = hub;
         }
 
         [HttpPost("new")]
-        [Authorize]
+        [Authorize(Policy = "IsService")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Computer))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -42,6 +32,7 @@ namespace MCST_Controller.Controllers
         }
 
         [HttpGet("get/all")]
+        [Authorize(Policy = "IsGuest")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Computer>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetAll()
@@ -51,6 +42,7 @@ namespace MCST_Controller.Controllers
         }
 
         [HttpGet("get/by-id")]
+        [Authorize(Policy = "IsGuest")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Computer))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetById([FromQuery]int id)
@@ -60,6 +52,7 @@ namespace MCST_Controller.Controllers
         }
 
         [HttpGet("get/by-system")]
+        [Authorize(Policy = "IsGuest")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Computer>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetBySystem([FromQuery] int systemId)
@@ -68,9 +61,6 @@ namespace MCST_Controller.Controllers
             return computers.Count() < 1 ? NotFound() : Ok(computers);
         }
 
-        public async void NewComputerOverWS(Computer computer)
-        {
-            await hub.Clients.All.SendAsync("NewComputer", computer);
-        }
+        
     }
 }

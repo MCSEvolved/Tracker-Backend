@@ -1,19 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using MCST_Enums;
 
-namespace MCST_Computer.Domain.Models
+namespace MCST_Models
 {
-	public enum ComputerDevice
-	{
-		INVALID,
-		Turtle,
-		Advanced_Turtle,
-		Computer,
-		Advanced_Computer,
-		Pocket_Computer,
-		Advanced_Pocket_Computer
-	}
-
+	
 	public class Computer
 	{
 		public int Id { get; set; } = -1;

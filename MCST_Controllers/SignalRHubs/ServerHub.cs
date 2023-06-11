@@ -1,16 +1,12 @@
-﻿using System;
-using MCST_Computer.Domain;
-using MCST_Computer.Domain.Models;
-using MCST_EventBus;
+﻿using MCST_Computer.Domain;
 using MCST_Inventory.Domain;
-using MCST_Inventory.Domain.Models;
 using MCST_Location.Domain;
-using MCST_Location.Domain.Models;
+using MCST_Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 namespace MCST_Controller.SignalRHubs
 {
-    [Authorize]
+    [Authorize(Policy = "IsService")]
     public class ServerHub : Hub
 	{
 		private readonly ComputerService computerService;

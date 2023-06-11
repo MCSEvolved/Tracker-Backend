@@ -405,3 +405,9 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+
+
+
+firebase-adminsdk-token.json
+docker-compose.yml
+appsettings.Development.json

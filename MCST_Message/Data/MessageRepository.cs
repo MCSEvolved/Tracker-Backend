@@ -6,6 +6,7 @@ using MongoDB.Bson;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MCST_Message.Models;
 using System.Text.Json;
+using MCST_Enums;
 
 namespace MCST_Message.Data
 {
