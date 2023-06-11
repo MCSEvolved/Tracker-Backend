@@ -1,6 +1,5 @@
 ﻿
 using System;
-using MCST_Computer.Domain.Models;
 using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

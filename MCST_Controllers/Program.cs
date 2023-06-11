@@ -16,6 +16,7 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.IdentityModel.Tokens;
 using MCST_Controller.Services;
 using MCST_Auth.Domain;
+using MCST_Notification.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,6 +93,7 @@ builder.Services.AddTransient<InventoryRepository>();
 builder.Services.AddTransient<IWsService, WsService>();
 
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<INotificationService, NotificationService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

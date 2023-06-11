@@ -27,7 +27,7 @@ namespace MCST_Controller.Controllers
                 return Ok(computer);
             } else
             {
-                return BadRequest(computer);
+                return BadRequest("JSON is Invalid");
             }
         }
 
@@ -38,7 +38,7 @@ namespace MCST_Controller.Controllers
         public IActionResult GetAll()
         {
             var computers = service.GetAllComputers();
-            return computers.Count() < 1 ? NotFound() : Ok(computers);
+            return computers.Count() < 1 ? NotFound("No Computers Found") : Ok(computers);
         }
 
         [HttpGet("get/by-id")]

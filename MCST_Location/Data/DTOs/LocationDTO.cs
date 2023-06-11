@@ -1,5 +1,4 @@
 ﻿using System;
-using MCST_Location.Domain.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
