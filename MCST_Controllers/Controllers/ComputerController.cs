@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MCST_Controller.Controllers
 {
     [ApiController]
-    [Route("api/computer")]
+    [Route("computer")]
     public class ComputerController : ControllerBase
     {
         private readonly ComputerService service;

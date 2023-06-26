@@ -28,7 +28,7 @@ namespace MCST_Message.Domain
             {
                 Notification notification = new()
                 {
-                    Title = $"{message.Source} {message.Identifier} sent an Error!",
+                    Title = $"{message.Source} {message.SourceId} sent an Error!",
                     Body = message.Content,
                     Topic = "tracker_error"
                 };
@@ -38,7 +38,7 @@ namespace MCST_Message.Domain
             {
                 Notification notification = new()
                 {
-                    Title = $"{message.Source} {message.Identifier} sent a Warning!",
+                    Title = $"{message.Source} {message.SourceId} sent a Warning!",
                     Body = message.Content,
                     Topic = "tracker_warning"
                 };
@@ -49,7 +49,7 @@ namespace MCST_Message.Domain
                 Notification notification = new()
                 {
                     Title = "Turtle Out of Fuel!",
-                    Body = $"Turtle {message.Identifier} has run out of fuel and needs help!",
+                    Body = $"Turtle {message.SourceId} has run out of fuel and needs help!",
                     Topic = "tracker_out-of-fuel"
                 };
                 notificationService.SendNotification(notification);
@@ -63,7 +63,7 @@ namespace MCST_Message.Domain
                 clientWsService.NewMessageOverWS(message);
                 var metaData = BsonSerializer.Deserialize<BsonDocument>((message.MetaData).ToString());
             
-			    repo.InsertMessage(new MessageDTO(message.Type, message.Source, message.Content, metaData, message.CreationTime, message.Identifier));
+			    repo.InsertMessage(new MessageDTO(message.Type, message.Source, message.Content, metaData, message.CreationTime, message.SourceId));
                 SendNotification(message);
                 return true;
             } else
@@ -81,7 +81,7 @@ namespace MCST_Message.Domain
 			{
                 Message message = new Message
 				{
-					Identifier = messageDTO.Identifier,
+					SourceId = messageDTO.SourceId,
 					Content = messageDTO.Content,
                     MetaData = JsonSerializer.Deserialize<JsonElement>(messageDTO.MetaData.ToJson()),
 					Source = messageDTO.Source,
@@ -103,7 +103,7 @@ namespace MCST_Message.Domain
             {
                 Message message = new Message
                 {
-                    Identifier = messageDTO.Identifier,
+                    SourceId = messageDTO.SourceId,
                     Content = messageDTO.Content,
                     MetaData = JsonSerializer.Deserialize<JsonElement>(messageDTO.MetaData.ToJson()),
                     Source = messageDTO.Source,
@@ -115,15 +115,15 @@ namespace MCST_Message.Domain
             return messages;
         }
 
-        public List<Message> GetByIdentifiers(int page, int pageSize, string[] identifiers)
+        public List<Message> GetBySourceIds(int page, int pageSize, string[] sourceIds)
         {
-            List<MessageDTO> messageDTOs = repo.GetAllMessagesByIdentifiers(page, pageSize, identifiers);
+            List<MessageDTO> messageDTOs = repo.GetAllMessagesBySourceIds(page, pageSize, sourceIds);
             List<Message> messages = new List<Message>();
             foreach (var messageDTO in messageDTOs)
             {
                 Message message = new Message
                 {
-                    Identifier = messageDTO.Identifier,
+                    SourceId = messageDTO.SourceId,
                     Content = messageDTO.Content,
                     MetaData = JsonSerializer.Deserialize<JsonElement>(messageDTO.MetaData.ToJson()),
                     Source = messageDTO.Source,

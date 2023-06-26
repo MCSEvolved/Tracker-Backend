@@ -12,7 +12,7 @@ class Message
     MessageSource source;
     string content;
     JSON? metaData;
-    string identifier; //ComputerID, SystemID or Service Name
+    string sourceId; //ComputerID, SystemID or Service Name
 }
 ```
 
@@ -28,7 +28,7 @@ class Message
     MessageSource source;
     string content;
     JSON? metaData;
-    string identifier; //ComputerID, SystemID or Service Name
+    string sourceId; //ComputerID, SystemID or Service Name
     long creationTime; //Unix time in seconds
 }
 ```
@@ -139,15 +139,15 @@ Get a list of all the messages by source
 ---
 
 <details>
-<summary>Get All Messages by Identifiers (pagination)</summary>
+<summary>Get All Messages by Source IDs (pagination)</summary>
 
-Get a list of all the messages by indentifiers
+Get a list of all the messages by source IDs
 
 | Name | Value |
 | --- | --- |
-| URL | `api.mcsynergy.nl/tracker/message/get/by-identifiers` |
+| URL | `api.mcsynergy.nl/tracker/message/get/by-source-ids` |
 | Method | `GET` |
-| URL Params | `page: int` <br> `pageSize: int ` <br> `identifiers: array[string]` |
+| URL Params | `page: int` <br> `pageSize: int ` <br> `sourceIds: array[string]` |
 | Headers | `Authorization` |
 | Required Claim | `Guest` |
 | Success Response | Code: 200 <br> Content: `List<Message(Response)> as JSON` |

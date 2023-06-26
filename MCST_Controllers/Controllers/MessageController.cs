@@ -8,7 +8,7 @@ using MCST_Models;
 namespace MCST_Controller.Controllers
 {
     [ApiController]
-    [Route("api/message")]
+    [Route("message")]
     public class MessageController : ControllerBase
     {
         private readonly MessageService service;
@@ -54,13 +54,13 @@ namespace MCST_Controller.Controllers
             return messages.Count() < 1 ? NotFound() : Ok(messages);
         }
 
-        [HttpGet("get/by-identifiers")]
+        [HttpGet("get/by-source-ids")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Message>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Policy = "IsGuest")]
-        public IActionResult GetByIdentifier([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string[] identifiers)
+        public IActionResult GetBySourceIds([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string[] sourceIds)
         {
-            var messages = service.GetByIdentifiers(page, pageSize, identifiers);
+            var messages = service.GetBySourceIds(page, pageSize, sourceIds);
             return messages.Count() < 1 ? NotFound() : Ok(messages);
         }
 

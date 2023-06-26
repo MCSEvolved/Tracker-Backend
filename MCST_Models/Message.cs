@@ -19,7 +19,7 @@ namespace MCST_Models
 
         public long CreationTime { get; private set; } = DateTimeOffset.Now.ToUnixTimeSeconds();
 
-        public string Identifier { get; set; } = "Unknown";
+        public string SourceId { get; set; } = "Unknown";
 
 
         public bool IsValid()

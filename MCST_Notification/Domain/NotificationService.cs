@@ -4,6 +4,7 @@ using FirebaseAdmin.Auth;
 using MCST_ControllerInterfaceLayer.Interfaces;
 using MCST_Models;
 using MCST_Notification.Domain.Models;
+using Microsoft.Extensions.Configuration;
 using RestSharp;
 
 namespace MCST_Notification.Domain
@@ -12,14 +13,22 @@ namespace MCST_Notification.Domain
 	{
         private readonly string baseUrl = "https://api.mcsynergy.nl/";
         private readonly IAuthService authService;
+        private readonly IConfiguration configuration;
 
-        public NotificationService(IAuthService _authService)
+        public NotificationService(IAuthService _authService, IConfiguration _configuration)
         {
             this.authService = _authService;
+            this.configuration = _configuration;
         }
 
         public async Task<bool> SendNotification(Notification notification)
 		{
+            var enabled = configuration.GetValue<bool>("EnableNotifications");
+
+            if (!enabled) {
+                return false;
+            }
+
             if (!notification.isValid())
             {
                 return false;

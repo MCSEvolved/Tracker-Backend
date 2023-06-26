@@ -15,7 +15,7 @@ namespace MCST_Message.Data.DTOs
             Content = content;
             MetaData = metaData;
             CreationTime = creationTime;
-            Identifier = identifier;
+            SourceId = identifier;
         }
 
         public MessageDTO(string? id, MessageType type, MessageSource source, string content, BsonDocument? metaData, long creationTime, string identifier)
@@ -26,7 +26,7 @@ namespace MCST_Message.Data.DTOs
             Content = content;
             MetaData = metaData;
             CreationTime = creationTime;
-            Identifier = identifier;
+            SourceId = identifier;
         }
 
         [BsonId]
@@ -40,7 +40,7 @@ namespace MCST_Message.Data.DTOs
 
         public BsonDocument? MetaData { get; set; }
         public long CreationTime { get; set; }
-        public string Identifier { get; set; }
+        public string SourceId { get; set; }
     }
 }
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MCST_Controller.Controllers
 {
     [ApiController]
-    [Route("api/inventory")]
+    [Route("inventory")]
     public class InventoryController : ControllerBase
     {
         private readonly InventoryService service;

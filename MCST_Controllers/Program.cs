@@ -22,7 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 FirebaseApp.Create(new AppOptions()
 {
-    Credential = GoogleCredential.FromFile("firebase-adminsdk-token.json")
+    Credential = GoogleCredential.FromFile(builder.Configuration["CertificatePath"])
 
 
 });
@@ -34,10 +34,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     opt.Authority = builder.Configuration["Jwt:Firebase:ValidIssuer"];
     opt.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = false,
         ValidIssuer = builder.Configuration["Jwt:Firebase:ValidIssuer"],
         ValidAudience = builder.Configuration["Jwt:Firebase:ValidAudience"],
     };
@@ -48,23 +48,23 @@ builder.Services.AddAuthorization(opt =>
 {
     opt.AddPolicy("IsGuest", policy =>
         policy.RequireAssertion(context =>
-            context.User.HasClaim(c => c.Type == "guest" && c.Value == "true") ||
-            context.User.HasClaim(c => c.Type == "player" && c.Value == "true") ||
-            context.User.HasClaim(c => c.Type == "admin" && c.Value == "true")));
+            context.User.HasClaim(c => c.Type == "isGuest" && c.Value == "true") ||
+            context.User.HasClaim(c => c.Type == "isPlayer" && c.Value == "true") ||
+            context.User.HasClaim(c => c.Type == "isAdmin" && c.Value == "true")));
 
     opt.AddPolicy("IsPlayer", policy =>
         policy.RequireAssertion(context =>
-            context.User.HasClaim(c => c.Type == "player" && c.Value == "true") ||
-            context.User.HasClaim(c => c.Type == "admin" && c.Value == "true")));
+            context.User.HasClaim(c => c.Type == "isPlayer" && c.Value == "true") ||
+            context.User.HasClaim(c => c.Type == "isAdmin" && c.Value == "true")));
 
     opt.AddPolicy("IsAdmin", policy =>
         policy.RequireAssertion(context =>
-            context.User.HasClaim(c => c.Type == "admin" && c.Value == "true")));
+            context.User.HasClaim(c => c.Type == "isAdmin" && c.Value == "true")));
 
     opt.AddPolicy("IsService", policy =>
         policy.RequireAssertion(context =>
-            context.User.HasClaim(c => c.Type == "service" && c.Value == "true") ||
-            context.User.HasClaim(c => c.Type == "admin" && c.Value == "true")));
+            context.User.HasClaim(c => c.Type == "isService" && c.Value == "true") ||
+            context.User.HasClaim(c => c.Type == "isAdmin" && c.Value == "true")));
 });
 
 
@@ -115,8 +115,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<ServerHub>("/ws/server");

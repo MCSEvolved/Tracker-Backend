@@ -7,7 +7,7 @@ using MCST_Models;
 namespace MCST_Controller.Controllers
 {
     [ApiController]
-    [Route("api/location")]
+    [Route("location")]
     public class LocationController : ControllerBase
     {
         private readonly LocationService service;
@@ -20,7 +20,7 @@ namespace MCST_Controller.Controllers
         [HttpGet("get/by-id")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Location>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(Policy = "IsGuest")]
+        [Authorize(Policy = "IsAdmin")]
         public IActionResult GetLocationById([FromQuery]int computerId)
         {
             Location location = service.GetLocationByComputerId(computerId);

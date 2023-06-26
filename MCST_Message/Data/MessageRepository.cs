@@ -50,11 +50,11 @@ namespace MCST_Message.Data
             return messages;
         }
 
-        public List<MessageDTO> GetAllMessagesByIdentifiers(int page, int pageSize, string[] identifiers)
+        public List<MessageDTO> GetAllMessagesBySourceIds(int page, int pageSize, string[] sourceIds)
         {
             var sort = Builders<MessageDTO>.Sort.Descending("CreationTime");
             List<MessageDTO> messages = _messages
-                .Find(model => identifiers.Contains(model.Identifier))
+                .Find(model => sourceIds.Contains(model.SourceId))
                 .Sort(sort)
                 .Skip((page - 1) * pageSize)
                 .Limit(pageSize)
