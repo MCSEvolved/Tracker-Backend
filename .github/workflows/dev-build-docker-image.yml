@@ -12,11 +12,21 @@ jobs:
     name: Build Docker Image
     steps:
       - name: RUN docker build
-        run: docker build -t docker.josian.nl/mcs/tracker
+        run: sudo docker build -t shared.docker.josian.nl/mcs/tracker:dev .
 
   push_to_registry:
     runs-on: ubuntu-latest
     name: Push Docker Image to Registry
     needs: [build_image]
+    steps:
+      - name: Login to registry
+        run: >
+          echo ${{ secrets.REGISTRY_JOSIAN_PASSWORD }}
+          | sudo docker login shared.docker.josian.nl
+          -u ${{ secrets.REGISTRY_JOSIAN_USERNAME }} --password-stdin
+      - name: Push to registry
+        run: sudo docker push shared.docker.josian.nl/mcs/tracker:dev
+      
+      
     
   
