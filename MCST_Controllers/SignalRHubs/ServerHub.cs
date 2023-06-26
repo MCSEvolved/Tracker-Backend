@@ -1,6 +1,7 @@
 ﻿using MCST_Computer.Domain;
 using MCST_Inventory.Domain;
 using MCST_Location.Domain;
+using MCST_Message.Domain;
 using MCST_Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -12,12 +13,14 @@ namespace MCST_Controller.SignalRHubs
 		private readonly ComputerService computerService;
         private readonly LocationService locationService;
         private readonly InventoryService inventoryService;
+        private readonly MessageService messageService;
 
-        public ServerHub(ComputerService computerService, LocationService locationService, InventoryService inventoryService)
+        public ServerHub(ComputerService computerService, LocationService locationService, InventoryService inventoryService, MessageService messageService)
         {
             this.computerService = computerService;
             this.locationService = locationService;
             this.inventoryService = inventoryService;
+            this.messageService = messageService;
         }
 
         public async Task NewComputer(Computer computer)
@@ -53,6 +56,18 @@ namespace MCST_Controller.SignalRHubs
                 await Clients.Caller.SendAsync("NewInventory", 400, "Invalid Model");
             }
         }
-	}
+
+        public async Task NewMessage(Message message)
+        {
+            if (messageService.NewMessage(message))
+            {
+                await Clients.Caller.SendAsync("NewMessage", 200, "Ok");
+            }
+            else
+            {
+                await Clients.Caller.SendAsync("NewMessage", 400, "Invalid Model");
+            }
+        }
+    }
 }
 
