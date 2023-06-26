@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Docker Image
     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
       - name: RUN docker build
         run: sudo docker build . --file /Dockerfile --tag shared.docker.josian.nl/mcs/tracker:dev
 
