@@ -1,0 +1,22 @@
+name: Build Testing Docker Image
+run-name: Build Testing Docker Image
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build_image:
+    runs-on: ubuntu-latest
+    name: Build Docker Image
+    steps:
+      - name: RUN docker build
+        run: docker build -t docker.josian.nl/mcs/tracker
+
+  push_to_registry:
+    runs-on: ubuntu-latest
+    name: Push Docker Image to Registry
+    needs: [build_image]
+    
+  
