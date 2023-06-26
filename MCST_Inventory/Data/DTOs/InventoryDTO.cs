@@ -14,7 +14,6 @@ namespace MCST_Inventory.Data.DTOs
         }
 
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public int ComputerId { get; set; } = -1;
         public List<ItemDTO> Items { get; set; } = new List<ItemDTO>();
         public long CreatedOn { get; set; }
