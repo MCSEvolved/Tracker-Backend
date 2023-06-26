@@ -12,7 +12,7 @@ jobs:
     name: Build Docker Image
     steps:
       - name: RUN docker build
-        run: sudo docker build -t shared.docker.josian.nl/mcs/tracker:dev .
+        run: sudo docker build --file /Dockerfile --tag shared.docker.josian.nl/mcs/tracker:dev .
 
   push_to_registry:
     runs-on: ubuntu-latest
