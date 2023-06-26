@@ -77,7 +77,13 @@ builder.Services.AddControllers()
 builder.Services.AddSignalR(opt =>
 {
     opt.EnableDetailedErrors = true;
-});
+
+})
+    .AddJsonProtocol(options =>
+    {
+        options.PayloadSerializerOptions.Converters
+           .Add(new JsonStringEnumConverter());
+    }); ;
 
 
 builder.Services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
