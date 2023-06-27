@@ -8,7 +8,7 @@ using MCST_Models;
 namespace MCST_Controller.Controllers
 {
     [ApiController]
-    [Route("message")]
+    [Route("tracker/message")]
     public class MessageController : ControllerBase
     {
         private readonly MessageService service;

@@ -7,7 +7,7 @@ using MCST_Models;
 namespace MCST_Controller.Controllers
 {
     [ApiController]
-    [Route("location")]
+    [Route("tracker/location")]
     public class LocationController : ControllerBase
     {
         private readonly LocationService service;
