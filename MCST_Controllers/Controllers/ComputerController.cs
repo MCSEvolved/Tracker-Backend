@@ -15,14 +15,15 @@ namespace MCST_Controller.Controllers
             this.service = service;
         }
 
+
         [HttpPost("new")]
         [Authorize(Policy = "IsService")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Computer))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult NewComputer([FromBody] Computer computer)
+        public async Task<IActionResult> NewComputer([FromBody] Computer computer)
         {
-            if (service.NewComputer(computer))
+            if (await service.NewComputer(computer))
             {
                 return Ok(computer);
             } else
@@ -35,19 +36,19 @@ namespace MCST_Controller.Controllers
         [Authorize(Policy = "IsGuest")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Computer>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var computers = service.GetAllComputers();
-            return computers.Count() < 1 ? NotFound("No Computers Found") : Ok(computers);
+            var computers = await service.GetAllComputers();
+            return computers.Count < 1 ? NotFound("No Computers Found") : Ok(computers);
         }
 
         [HttpGet("get/by-id")]
         [Authorize(Policy = "IsGuest")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Computer))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetById([FromQuery]int id)
+        public async Task<IActionResult> GetById([FromQuery]int id)
         {
-            var computer = service.GetComputerById(id);
+            var computer = await service.GetComputerById(id);
             return computer == null ? NotFound() : Ok(computer);
         }
 
@@ -55,10 +56,10 @@ namespace MCST_Controller.Controllers
         [Authorize(Policy = "IsGuest")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Computer>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetBySystem([FromQuery] int systemId)
+        public async Task<IActionResult> GetBySystem([FromQuery] int systemId)
         {
-            var computers = service.GetAllComputersBySystem(systemId);
-            return computers.Count() < 1 ? NotFound() : Ok(computers);
+            var computers = await service.GetAllComputersBySystem(systemId);
+            return computers.Count < 1 ? NotFound() : Ok(computers);
         }
 
         

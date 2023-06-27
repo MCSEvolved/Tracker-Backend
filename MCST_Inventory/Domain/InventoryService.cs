@@ -18,11 +18,11 @@ namespace MCST_Inventory.Domain
             clientWsService = _clientWsService;
         }
 
-		public Inventory? RequestInventory(int computerId)
+		public async Task<Inventory?> RequestInventory(int computerId)
 		{
-            clientWsService.SendRequestInventoryCommand(computerId);
+            await clientWsService.SendRequestInventoryCommand(computerId);
 
-			InventoryDTO inventoryDTO = repo.GetInventory(computerId);
+			InventoryDTO inventoryDTO = await repo.GetInventory(computerId);
 			if (inventoryDTO == null)
 			{
 				return null;
@@ -45,7 +45,7 @@ namespace MCST_Inventory.Domain
 		}
 
 
-		public bool NewInventory(Inventory inventory)
+		public async Task<bool> NewInventory(Inventory inventory)
 		{
 			if (inventory.IsValid())
 			{
@@ -55,8 +55,8 @@ namespace MCST_Inventory.Domain
 				{
 					itemDTOs.Add(new ItemDTO(item.Name, item.Size, item.StackSize, item.Slot));
 				}
-                clientWsService.NewInventoryOverWS(inventory);
-                repo.InsertInventory(new InventoryDTO(inventory.ComputerId, itemDTOs, inventory.CreatedOn));
+                await clientWsService.NewInventoryOverWS(inventory);
+                await repo.InsertInventory(new InventoryDTO(inventory.ComputerId, itemDTOs, inventory.CreatedOn));
 				return true;
 			}
 			else

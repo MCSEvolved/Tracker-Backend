@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 using MCST_Computer.Data.DTOs;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -10,53 +11,53 @@ namespace MCST_Computer.Data
 	{
         private readonly IMongoCollection<ComputerDTO> _computers;
 
-        public ComputerRepository(IMongoClient client)
+        public ComputerRepository(IMongoClient client, IConfiguration config)
         {
-            var database = client.GetDatabase("mcst_dev");
+            var database = client.GetDatabase(config["MongoDb:DbName"]);
             var collection = database.GetCollection<ComputerDTO>("computers");
 
             _computers = collection;
         }
 
-        public void InsertComputer(ComputerDTO computer)
+        public async Task InsertComputer(ComputerDTO computer)
         {
             var filter = Builders<ComputerDTO>.Filter.Eq("_id", computer.Id);
-            if (_computers.Find(filter).FirstOrDefault() == null)
+            if (await _computers.Find(filter).FirstOrDefaultAsync() == null)
             {
-                _computers.InsertOne(computer);
+                await _computers.InsertOneAsync(computer);
             } else
             {
-                _computers.ReplaceOne(filter, computer);
+                await _computers.ReplaceOneAsync(filter, computer);
             }
         }
 
-        public List<ComputerDTO> GetAllComputers()
+        public async Task<List<ComputerDTO>> GetAllComputers()
         {
             var sort = Builders<ComputerDTO>.Sort.Ascending("_id");
-            List<ComputerDTO> computers = _computers
+            List<ComputerDTO> computers = await _computers
                 .Find(new BsonDocument())
                 .Sort(sort)
-                .ToList();
+                .ToListAsync();
             return computers;
         }
 
-        public List<ComputerDTO> GetAllComputersBySystem(int systemId)
+        public async Task<List<ComputerDTO>> GetAllComputersBySystem(int systemId)
         {
             var sort = Builders<ComputerDTO>.Sort.Ascending("_id");
-            List<ComputerDTO> computers = _computers
+            List<ComputerDTO> computers = await _computers
                 .Find(new BsonDocument("SystemId", systemId))
                 .Sort(sort)
-                .ToList();
+                .ToListAsync();
             return computers;
         }
 
-        public ComputerDTO GetComputerById(int id)
+        public async Task<ComputerDTO> GetComputerById(int id)
         {
             var sort = Builders<ComputerDTO>.Sort.Ascending("_id");
-            ComputerDTO computer = _computers
+            ComputerDTO computer = await _computers
                 .Find(new BsonDocument("_id", id))
                 .Sort(sort)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return computer;
         }
 

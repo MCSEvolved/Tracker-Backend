@@ -48,25 +48,24 @@ builder.Services.AddAuthorization(opt =>
 {
     opt.AddPolicy("IsGuest", policy =>
         policy.RequireAssertion(context =>
-            context.User.HasClaim(c => c.Type == "isGuest" && c.Value == "true") ||
-            context.User.HasClaim(c => c.Type == "isPlayer" && c.Value == "true") ||
-            context.User.HasClaim(c => c.Type == "isAdmin" && c.Value == "true")));
+            context.User.HasClaim(c => c.Type == "isGuest") ||
+            context.User.HasClaim(c => c.Type == "isPlayer") ||
+            context.User.HasClaim(c => c.Type == "isAdmin")));
 
     opt.AddPolicy("IsPlayer", policy =>
         policy.RequireAssertion(context =>
-            context.User.HasClaim(c => c.Type == "isPlayer" && c.Value == "true") ||
-            context.User.HasClaim(c => c.Type == "isAdmin" && c.Value == "true")));
+            context.User.HasClaim(c => c.Type == "isPlayer") ||
+            context.User.HasClaim(c => c.Type == "isAdmin")));
 
     opt.AddPolicy("IsAdmin", policy =>
         policy.RequireAssertion(context =>
-            context.User.HasClaim(c => c.Type == "isAdmin" && c.Value == "true")));
+            context.User.HasClaim(c => c.Type == "isAdmin")));
 
     opt.AddPolicy("IsService", policy =>
         policy.RequireAssertion(context =>
-            context.User.HasClaim(c => c.Type == "isService" && c.Value == "true") ||
-            context.User.HasClaim(c => c.Type == "isAdmin" && c.Value == "true")));
+            context.User.HasClaim(c => c.Type == "isService") ||
+            context.User.HasClaim(c => c.Type == "isAdmin")));
 });
-
 
 
 // Add services to the container.

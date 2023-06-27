@@ -12,6 +12,9 @@ namespace MCST_Models
             Z = z;
         }
 
+        public Coordinates() {
+        }
+
         public int X { get; set; }
         public int Y { get; set; }
         public int Z { get; set; }
@@ -24,6 +27,9 @@ namespace MCST_Models
         public Coordinates Coordinates { get; set; } = default!;
         public string Dimension { get; set; } = "Unknown";
         public long CreatedOn { get; private set; } = DateTimeOffset.Now.ToUnixTimeSeconds();
+
+        public Location() {
+        }
 
         public bool IsValid()
         {

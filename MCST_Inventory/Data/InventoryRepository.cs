@@ -1,5 +1,6 @@
 ﻿using System;
 using MCST_Inventory.Data.DTOs;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -9,32 +10,32 @@ namespace MCST_Inventory.Data
 	{
         private IMongoCollection<InventoryDTO> _inventories;
 
-        public InventoryRepository(IMongoClient client)
+        public InventoryRepository(IMongoClient client, IConfiguration config)
 		{
-            var database = client.GetDatabase("mcst_dev");
+            var database = client.GetDatabase(config["MongoDb:DbName"]);
             _inventories = database.GetCollection<InventoryDTO>("inventories");
         }
 
-        public void InsertInventory(InventoryDTO inventory)
+        public async Task InsertInventory(InventoryDTO inventory)
         {
             var filter = Builders<InventoryDTO>.Filter.Eq("_id", inventory.ComputerId);
-            if (_inventories.Find(filter).FirstOrDefault() == null)
+            if (await _inventories.FindAsync(filter) == null)
             {
-                _inventories.InsertOne(inventory);
+                await _inventories.InsertOneAsync(inventory);
             }
             else
             {
-                _inventories.ReplaceOne(filter, inventory);
+                await _inventories.ReplaceOneAsync(filter, inventory);
             }
         }
 
-        public InventoryDTO GetInventory(int computerId)
+        public async Task<InventoryDTO> GetInventory(int computerId)
         {
             var sort = Builders<InventoryDTO>.Sort.Ascending("_id");
-            InventoryDTO inventory = _inventories
+            InventoryDTO inventory = await _inventories
                 .Find(new BsonDocument("_id", computerId))
                 .Sort(sort)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return inventory;
         }
 	}

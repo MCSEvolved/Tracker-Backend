@@ -23,12 +23,12 @@ namespace MCST_Computer.Domain
 
   
 
-        public bool NewComputer(Computer c)
+        public async Task<bool> NewComputer(Computer c)
         {
             if (c.IsValid())
             {
-                clientWsService.NewComputerOverWS(c);
-                repo.InsertComputer(new ComputerDTO(c.Id, c.Label, c.SystemId, c.Device, c.FuelLimit, c.Status, c.FuelLevel, c.LastUpdate, c.HasModem));
+                await clientWsService.NewComputerOverWS(c);
+                await repo.InsertComputer(new ComputerDTO(c.Id, c.Label, c.SystemId, c.Device, c.FuelLimit, c.Status, c.FuelLevel, c.LastUpdate, c.HasModem));
                 return true;
             } else
             {
@@ -36,9 +36,9 @@ namespace MCST_Computer.Domain
             }
         }
 
-        public List<Computer> GetAllComputers()
+        public async Task<List<Computer>> GetAllComputers()
         {
-            List<ComputerDTO> computerDTOs = repo.GetAllComputers();
+            List<ComputerDTO> computerDTOs = await repo.GetAllComputers();
             List<Computer> computers = new List<Computer>();
             foreach (var computerDTO in computerDTOs)
             {
@@ -59,9 +59,9 @@ namespace MCST_Computer.Domain
             return computers;
         }
 
-        public List<Computer> GetAllComputersBySystem(int systemId)
+        public async Task<List<Computer>> GetAllComputersBySystem(int systemId)
         {
-            List<ComputerDTO> computerDTOs = repo.GetAllComputersBySystem(systemId);
+            List<ComputerDTO> computerDTOs = await repo.GetAllComputersBySystem(systemId);
             List<Computer> computers = new List<Computer>();
             foreach (var computerDTO in computerDTOs)
             {
@@ -82,9 +82,9 @@ namespace MCST_Computer.Domain
             return computers;
         }
 
-        public Computer? GetComputerById(int id)
+        public async Task<Computer?> GetComputerById(int id)
         {
-            ComputerDTO computerDTO = repo.GetComputerById(id);
+            ComputerDTO computerDTO = await repo.GetComputerById(id);
             if (computerDTO == null)
             {
                 return null;

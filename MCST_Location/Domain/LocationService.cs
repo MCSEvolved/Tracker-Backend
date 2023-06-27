@@ -17,12 +17,12 @@ namespace MCST_Location.Domain
             this.clientWsService = _clientWsService;
         }
 
-        public bool NewLocation(Location location)
+        public async Task<bool> NewLocation(Location location)
         {
             if (location.IsValid())
             {
-                clientWsService.NewLocationOverWS(location);
-                repo.InsertLocation(new LocationDTO(location.ComputerId, new CoordinatesDTO(location.Coordinates.X, location.Coordinates.Y, location.Coordinates.Z), location.Dimension, location.CreatedOn));
+                await clientWsService.NewLocationOverWS(location);
+                await repo.InsertLocation(new LocationDTO(location.ComputerId, new CoordinatesDTO(location.Coordinates.X, location.Coordinates.Y, location.Coordinates.Z), location.Dimension, location.CreatedOn));
                 return true;
             } else
             {
@@ -30,9 +30,9 @@ namespace MCST_Location.Domain
             }
         }
 
-        public Location GetLocationByComputerId(int computerId)
+        public async Task<Location> GetLocationByComputerId(int computerId)
         {
-            LocationDTO locationDTO = repo.GetLocationByComputerId(computerId);
+            LocationDTO locationDTO = await repo.GetLocationByComputerId(computerId);
             Location location = new Location
             {
                 ComputerId = locationDTO.ComputerId,

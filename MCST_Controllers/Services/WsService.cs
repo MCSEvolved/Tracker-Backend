@@ -17,33 +17,33 @@ namespace MCST_Controller.Services
             this.clientHub = _clientHub;
 		}
 
-        public async void NewComputerOverWS(Computer computer)
+        public async Task NewComputerOverWS(Computer computer)
         {
             await clientHub.Clients.All.SendAsync("NewComputer", computer);
         }
 
-        public async void SendRequestInventoryCommand(int computerId)
+        public async Task SendRequestInventoryCommand(int computerId)
         {
             await serverHub.Clients.All.SendAsync("RequestInventory", computerId);
         }
 
-        public async void NewInventoryOverWS(Inventory inventory)
+        public async Task NewInventoryOverWS(Inventory inventory)
         {
             await clientHub.Clients.All.SendAsync("NewInventory", inventory);
         }
 
-        public async void SendCommandToComputer(int computerId, string command)
+        public async Task SendCommandToComputer(int computerId, string command)
         {
             await serverHub.Clients.All.SendAsync("ComputerCommand", computerId, command);
         }
 
 
-        public async void NewLocationOverWS(Location location)
+        public async Task NewLocationOverWS(Location location)
         {
             await clientHub.Clients.All.SendAsync("NewLocation", location);
         }
 
-        public async void NewMessageOverWS(Message message)
+        public async Task NewMessageOverWS(Message message)
         {
             await clientHub.Clients.All.SendAsync("NewMessage", message);
         }

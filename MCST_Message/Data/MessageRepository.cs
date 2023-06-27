@@ -6,6 +6,7 @@ using MongoDB.Bson;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 using MCST_Enums;
+using Microsoft.Extensions.Configuration;
 
 namespace MCST_Message.Data
 {
@@ -13,52 +14,52 @@ namespace MCST_Message.Data
 	{
         private readonly IMongoCollection<MessageDTO> _messages;
 
-        public MessageRepository(IMongoClient client)
+        public MessageRepository(IMongoClient client, IConfiguration config)
 		{
-            var database = client.GetDatabase("mcst_dev");
+            var database = client.GetDatabase(config["MongoDb:DbName"]);
             var collection = database.GetCollection<MessageDTO>("messages");
 
             _messages = collection;
         }
 
-        public void InsertMessage(MessageDTO message)
+        public async Task InsertMessage(MessageDTO message)
         {
-            _messages.InsertOne(message);
+            await _messages.InsertOneAsync(message);
         }
 
-        public List<MessageDTO> GetAllMessages(int page, int pageSize)
+        public async Task<List<MessageDTO>> GetAllMessages(int page, int pageSize)
         {
             var sort = Builders<MessageDTO>.Sort.Descending("CreationTime");
-            List<MessageDTO> messages = _messages
+            List<MessageDTO> messages = await _messages
                 .Find(new BsonDocument())
                 .Sort(sort)
                 .Skip((page - 1) * pageSize)
                 .Limit(pageSize)
-                .ToList();
+                .ToListAsync();
             return messages;
         }
 
-        public List<MessageDTO> GetAllMessagesBySource(int page, int pageSize, MessageSource source)
+        public async Task<List<MessageDTO>> GetAllMessagesBySource(int page, int pageSize, MessageSource source)
         {
             var sort = Builders<MessageDTO>.Sort.Descending("CreationTime");
-            List<MessageDTO> messages = _messages
+            List<MessageDTO> messages = await _messages
                 .Find(new BsonDocument("Source", source))
                 .Sort(sort)
                 .Skip((page - 1) * pageSize)
                 .Limit(pageSize)
-                .ToList();
+                .ToListAsync();
             return messages;
         }
 
-        public List<MessageDTO> GetAllMessagesBySourceIds(int page, int pageSize, string[] sourceIds)
+        public async Task<List<MessageDTO>> GetAllMessagesBySourceIds(int page, int pageSize, string[] sourceIds)
         {
             var sort = Builders<MessageDTO>.Sort.Descending("CreationTime");
-            List<MessageDTO> messages = _messages
+            List<MessageDTO> messages = await _messages
                 .Find(model => sourceIds.Contains(model.SourceId))
                 .Sort(sort)
                 .Skip((page - 1) * pageSize)
                 .Limit(pageSize)
-                .ToList();
+                .ToListAsync();
             return messages;
         }
     }

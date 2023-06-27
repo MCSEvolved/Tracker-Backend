@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 namespace MCST_Controller.SignalRHubs
 {
+
     [Authorize(Policy = "IsService")]
     public class ServerHub : Hub
 	{
@@ -25,7 +26,7 @@ namespace MCST_Controller.SignalRHubs
 
         public async Task NewComputer(Computer computer)
 		{
-            if (computerService.NewComputer(computer))
+            if (await computerService.NewComputer(computer))
             {
                 await Clients.Caller.SendAsync("NewComputer", 200, "Ok");
             }
@@ -37,7 +38,7 @@ namespace MCST_Controller.SignalRHubs
 
         public async Task NewLocation(Location location)
         {
-            if (locationService.NewLocation(location))
+            if (await locationService.NewLocation(location))
             {
                 await Clients.Caller.SendAsync("NewLocation", 200, "Ok");
             } else
@@ -48,7 +49,7 @@ namespace MCST_Controller.SignalRHubs
 
         public async Task NewInventory(Inventory inventory)
         {
-            if (inventoryService.NewInventory(inventory))
+            if (await inventoryService.NewInventory(inventory))
             {
                 await Clients.Caller.SendAsync("NewInventory", 200, "Ok");
             } else
@@ -59,7 +60,7 @@ namespace MCST_Controller.SignalRHubs
 
         public async Task NewMessage(Message message)
         {
-            if (messageService.NewMessage(message))
+            if (await messageService.NewMessage(message))
             {
                 await Clients.Caller.SendAsync("NewMessage", 200, "Ok");
             }

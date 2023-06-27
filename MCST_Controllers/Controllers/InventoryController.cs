@@ -21,9 +21,9 @@ namespace MCST_Controller.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Inventory))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Policy = "IsGuest")]
-        public IActionResult RequestInventory(int computerId)
+        public async Task<IActionResult> RequestInventory(int computerId)
         {
-            Inventory? inventory = service.RequestInventory(computerId);
+            Inventory? inventory = await service.RequestInventory(computerId);
             return inventory == null ? NotFound() : Ok(inventory);
         }
 
@@ -32,9 +32,10 @@ namespace MCST_Controller.Controllers
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Authorize(Policy = "IsService")]
-        public IActionResult NewInventory(Inventory inventory)
+        public async Task<IActionResult> NewInventory(Inventory inventory)
         {
-            return !service.NewInventory(inventory) ? Accepted() : Accepted(inventory);
+            bool success = await service.NewInventory(inventory);
+            return !success ? Accepted() : Accepted(inventory);
         }
 
         

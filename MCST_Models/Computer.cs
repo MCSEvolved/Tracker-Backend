@@ -7,7 +7,11 @@ namespace MCST_Models
 	
 	public class Computer
 	{
-		public int Id { get; set; } = -1;
+        public Computer()
+        {
+        }
+
+        public int Id { get; set; } = -1;
 
 		public string Label { get; set; } = "No Label";
 

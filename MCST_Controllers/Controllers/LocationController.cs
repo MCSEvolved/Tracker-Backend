@@ -21,9 +21,9 @@ namespace MCST_Controller.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Location>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Policy = "IsAdmin")]
-        public IActionResult GetLocationById([FromQuery]int computerId)
+        public async Task<IActionResult> GetLocationById([FromQuery]int computerId)
         {
-            Location location = service.GetLocationByComputerId(computerId);
+            Location location = await service.GetLocationByComputerId(computerId);
             return location == null ? NotFound() : Ok(location);
         }
 

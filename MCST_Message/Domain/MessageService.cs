@@ -22,7 +22,7 @@ namespace MCST_Message.Domain
             this.notificationService = _notificationService;
         }
 
-        private void SendNotification(Message message)
+        private async Task SendNotification(Message message)
         {
             if (message.Type == MessageType.Error)
             {
@@ -32,7 +32,7 @@ namespace MCST_Message.Domain
                     Body = message.Content,
                     Topic = "tracker_error"
                 };
-                notificationService.SendNotification(notification);
+                await notificationService.SendNotification(notification);
             }
             else if (message.Type == MessageType.Warning)
             {
@@ -42,7 +42,7 @@ namespace MCST_Message.Domain
                     Body = message.Content,
                     Topic = "tracker_warning"
                 };
-                notificationService.SendNotification(notification);
+                await notificationService.SendNotification(notification);
             }
             else if (message.Type == MessageType.OutOfFuel)
             {
@@ -52,19 +52,19 @@ namespace MCST_Message.Domain
                     Body = $"Turtle {message.SourceId} has run out of fuel and needs help!",
                     Topic = "tracker_out-of-fuel"
                 };
-                notificationService.SendNotification(notification);
+                await notificationService.SendNotification(notification);
             }
         }
 
-		public bool NewMessage(Message message)
+		public async Task<bool> NewMessage(Message message)
 		{
             if (message.IsValid())
             {
-                clientWsService.NewMessageOverWS(message);
+                await clientWsService.NewMessageOverWS(message);
                 var metaData = BsonSerializer.Deserialize<BsonDocument>((message.MetaData).ToString());
             
-			    repo.InsertMessage(new MessageDTO(message.Type, message.Source, message.Content, metaData, message.CreationTime, message.SourceId));
-                SendNotification(message);
+			    await repo.InsertMessage(new MessageDTO(message.Type, message.Source, message.Content, metaData, message.CreationTime, message.SourceId));
+                await SendNotification(message);
                 return true;
             } else
             {
@@ -73,9 +73,9 @@ namespace MCST_Message.Domain
 
 		}
 
-		public List<Message> GetAll(int page, int pageSize)
+		public async Task<List<Message>> GetAll(int page, int pageSize)
 		{
-			List<MessageDTO> messageDTOs = repo.GetAllMessages(page, pageSize);
+			List<MessageDTO> messageDTOs = await repo.GetAllMessages(page, pageSize);
             List<Message> messages = new List<Message>();
 			foreach (var messageDTO in messageDTOs)
 			{
@@ -95,9 +95,9 @@ namespace MCST_Message.Domain
 
 
         //SUPPORT FOR MULTIPLE SOURCES
-        public List<Message> GetBySource(int page, int pageSize, MessageSource source)
+        public async Task<List<Message>> GetBySource(int page, int pageSize, MessageSource source)
         {
-            List<MessageDTO> messageDTOs = repo.GetAllMessagesBySource(page, pageSize, source);
+            List<MessageDTO> messageDTOs = await repo.GetAllMessagesBySource(page, pageSize, source);
             List<Message> messages = new List<Message>();
             foreach (var messageDTO in messageDTOs)
             {
@@ -115,9 +115,9 @@ namespace MCST_Message.Domain
             return messages;
         }
 
-        public List<Message> GetBySourceIds(int page, int pageSize, string[] sourceIds)
+        public async Task<List<Message>> GetBySourceIds(int page, int pageSize, string[] sourceIds)
         {
-            List<MessageDTO> messageDTOs = repo.GetAllMessagesBySourceIds(page, pageSize, sourceIds);
+            List<MessageDTO> messageDTOs = await repo.GetAllMessagesBySourceIds(page, pageSize, sourceIds);
             List<Message> messages = new List<Message>();
             foreach (var messageDTO in messageDTOs)
             {
