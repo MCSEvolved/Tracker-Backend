@@ -129,9 +129,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapHub<ServerHub>("/ws/server");
-app.MapHub<ClientHub>("/ws/client");
-app.MapHub<AuthorizedClientHub>("/ws/client/authorized");
+app.MapHub<ServerHub>("/tracker/ws/server");
+app.MapHub<ClientHub>("/tracker/ws/client");
+app.MapHub<AuthorizedClientHub>("/tracker/ws/client/authorized");
 
 app.Run();
 
