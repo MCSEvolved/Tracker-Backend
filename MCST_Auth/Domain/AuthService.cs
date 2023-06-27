@@ -14,19 +14,15 @@ namespace MCST_Auth.Domain
         private readonly IConfiguration configuration;
         public AuthService(IConfiguration _configuration)
         {
-            this.configuration = _configuration;
+            configuration = _configuration;
         }
 
         public async Task<string> RequestIdToken()
 		{
             var uid = configuration["FirebaseUID"];
-            var additionalClaims = new Dictionary<string, object>()
-            {
-                { "isService", true },
-            };
-
+            
             string customToken = await FirebaseAuth.DefaultInstance
-                .CreateCustomTokenAsync(uid, additionalClaims);
+                .CreateCustomTokenAsync(uid);
 
             string idToken = await ConvertCustomToId(customToken);
 
@@ -36,40 +32,30 @@ namespace MCST_Auth.Domain
 
         private async Task<string> ConvertCustomToId(string customToken)
         {
-            string apiKey = configuration["FirebaseAPIKey"];
+            var client = new RestClient("https://api.mcsynergy.nl/auth");
+            var request = new RestRequest("/exchange-custom-token");
+            request.AddHeader("custom-token", customToken);
+        
+            var response = await client.GetAsync(request);
 
-            var client = new RestClient("https://identitytoolkit.googleapis.com");
-            var request = new RestRequest("v1/accounts:signInWithCustomToken");
-            request.AddQueryParameter("key", apiKey);
-            request.AddJsonBody(new RequestIdTokenModel { token = customToken });
-
-            var response = await client.PostAsync(request);
-
-            if (response.IsSuccessful && response.Content != null)
+            if (!response.IsSuccessful || response.Content == null)
             {
-                JsonNode? data = JsonSerializer.Deserialize<JsonNode>(response.Content);
-                if (data != null)
-                {
-                    JsonNode? idTokenJson = data["idToken"];
-                    if (idTokenJson != null)
-                    {
-                        string idToken = idTokenJson.ToString();
-                        return idToken;
-                    }
-                    else
-                    {
-                        return "";
-                    }
-                } else
-                {
-                    return "";
-                }
-                
-                
-            }
-            else {
                 return "";
             }
+            JsonNode? data = JsonSerializer.Deserialize<JsonNode>(response.Content);
+            if (data == null)
+            {
+                return "";
+            }
+            JsonNode? idTokenJson = data["idToken"];
+            if (idTokenJson == null)
+            {
+                return "";
+            }
+            String idToken = idTokenJson.ToString();
+            Console.WriteLine(idToken);
+            return idToken;
+
         }
     }
 }

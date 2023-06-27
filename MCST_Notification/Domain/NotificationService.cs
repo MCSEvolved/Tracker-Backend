@@ -36,14 +36,18 @@ namespace MCST_Notification.Domain
 
             string idToken = await authService.RequestIdToken();
 
+
             var client = new RestClient(baseUrl);
             var request = new RestRequest("notifications/send");
-            request.AddQueryParameter("topic", notification.Topic);
-            request.AddHeader("Authorization", idToken);
-            request.AddJsonBody(new NotificationJsonModel { body = notification.Body, title = notification.Title });
-
-            var response = await client.PostAsync(request);
-            return response.IsSuccessful;
+            request
+                .AddQueryParameter("topic", notification.Topic)
+                .AddHeader("Authorization", idToken)
+                .AddJsonBody(new NotificationJsonModel { body = notification.Body, title = notification.Title });
+                var response = await client.ExecutePostAsync(request);
+                Console.WriteLine(response.Content);
+            
+            
+            return true;
         }
 	}
 }
