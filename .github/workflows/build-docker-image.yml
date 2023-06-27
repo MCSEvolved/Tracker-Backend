@@ -1,0 +1,19 @@
+name: Build Docker Image
+run-name: Build Docker Image
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  build_image:
+    runs-on: ubuntu-latest
+    name: Build Docker Image
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: RUN docker build
+        run: sudo docker build --tag registry.mcsynergy.nl/mcs/tracker:latest .
+      - name: Push to registry
+        run: sudo docker push registry.mcsynergy.nl/mcs/tracker:latest
