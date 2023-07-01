@@ -54,7 +54,7 @@ builder.Services.AddAuthorization(opt =>
         policy.RequireRole(new string[] { "isAdmin", "isPlayer" }));
 
     opt.AddPolicy("IsAdmin", policy =>
-        policy.RequireRole("isAdmin"));
+        policy.RequireRole(new string[] { "isAdmin" }));
 
     opt.AddPolicy("IsService", policy =>
         policy.RequireRole(new string[] { "isAdmin", "isService" }));

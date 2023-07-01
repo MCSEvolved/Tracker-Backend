@@ -36,7 +36,7 @@ namespace MCST_Auth.Domain
             var request = new RestRequest("/exchange-custom-token");
             request.AddHeader("custom-token", customToken);
         
-            var response = await client.GetAsync(request);
+            var response = await client.PostAsync(request);
 
             if (!response.IsSuccessful || response.Content == null)
             {
