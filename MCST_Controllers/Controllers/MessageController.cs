@@ -41,7 +41,7 @@ namespace MCST_Controller.Controllers
         public async Task<IActionResult> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             var messages = await service.GetAll(page, pageSize);
-            return messages.Count < 1 ? NotFound() : Ok(messages);
+            return Ok(messages);
         }
 
         [HttpGet("get/by-source")]
@@ -51,7 +51,7 @@ namespace MCST_Controller.Controllers
         public async Task<IActionResult> GetBySource([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] MessageSource source)
         {
             var messages = await service.GetBySource(page, pageSize, source);
-            return messages.Count < 1 ? NotFound() : Ok(messages);
+            return Ok(messages);
         }
 
         [HttpGet("get/by-source-ids")]
@@ -61,7 +61,7 @@ namespace MCST_Controller.Controllers
         public async Task<IActionResult> GetBySourceIds([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string[] sourceIds)
         {
             var messages = await service.GetBySourceIds(page, pageSize, sourceIds);
-            return messages.Count < 1 ? NotFound() : Ok(messages);
+            return Ok(messages);
         }
 
         
