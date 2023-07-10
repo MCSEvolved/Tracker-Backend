@@ -17,7 +17,7 @@ namespace MCST_Models
 
 		public JsonElement? MetaData { get; set; }
 
-        public long CreationTime { get; private set; } = DateTimeOffset.Now.ToUnixTimeSeconds();
+        public long CreationTime { get; private set; } = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
         public string SourceId { get; set; } = "Unknown";
 

@@ -26,7 +26,7 @@ namespace MCST_Models
         public int ComputerId { get; set; } = -1;
         public Coordinates Coordinates { get; set; } = default!;
         public string Dimension { get; set; } = "Unknown";
-        public long CreatedOn { get; private set; } = DateTimeOffset.Now.ToUnixTimeSeconds();
+        public long CreatedOn { get; private set; } = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
         public Location() {
         }
