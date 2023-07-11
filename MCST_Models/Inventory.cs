@@ -5,7 +5,7 @@ namespace MCST_Models
 	{
 		public int ComputerId { get; set; } = -1;
 		public List<Item> Items { get; set; } = new List<Item>();
-        public long CreatedOn { get; private set; } = DateTimeOffset.Now.ToUnixTimeSeconds();
+        public long CreatedOn { get; private set; } = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
         public bool IsValid()
 		{

@@ -25,7 +25,7 @@ namespace MCST_Models
 
         public int FuelLevel { get; set; } = -1;
 
-		public long LastUpdate { get; private set; } = DateTimeOffset.Now.ToUnixTimeSeconds();
+		public long LastUpdate { get; private set; } = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
 		public bool HasModem { get; set; } = false;
 

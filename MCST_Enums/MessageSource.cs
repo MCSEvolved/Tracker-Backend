@@ -7,7 +7,8 @@ namespace MCST_Enums
         Service,
         Computer,
         Turtle,
-        System
+        System,
+        Pocket
     }
 }
 
