@@ -28,7 +28,6 @@
     <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="SignalRHubs\" />
     <Folder Include="Services\" />
   </ItemGroup>
