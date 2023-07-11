@@ -118,8 +118,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(app => app.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 app.MapHub<ServerHub>("/tracker/ws/server");
@@ -127,5 +130,3 @@ app.MapHub<ClientHub>("/tracker/ws/client");
 app.MapHub<AuthorizedClientHub>("/tracker/ws/client/authorized");
 
 app.Run();
-
- 

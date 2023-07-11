@@ -39,7 +39,7 @@ namespace MCST_Controller.Controllers
         public async Task<IActionResult> GetAll()
         {
             var computers = await service.GetAllComputers();
-            return computers.Count < 1 ? NotFound("No Computers Found") : Ok(computers);
+            return Ok(computers);
         }
 
         [HttpGet("get/by-id")]
