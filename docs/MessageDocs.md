@@ -24,12 +24,13 @@ class Message
 ```csharp
 class Message
 {
+    string id;
     MessageType type;
     MessageSource source;
     string content;
     JSON? metaData;
     string sourceId; //ComputerID, SystemID or Service Name
-    long creationTime; //Unix time in seconds
+    long creationTime; //Unix time in milliseconds
 }
 ```
 
@@ -97,7 +98,89 @@ Add a new message, other services can also use this to sent logs of their servic
 ---
 
 <details>
-<summary>Get All Messages (pagination)</summary>
+<summary>Get Messages (pagination + filters)</summary>
+
+Get a list of all the messages
+
+| Name | Value |
+| --- | --- |
+| URL | `api.mcsynergy.nl/tracker/message/get` |
+| Method | `GET` |
+| URL Params | `page: int` <br> `pageSize: int ` <br> `MessageFilter (see example!)` |
+| Headers | `Authorization` |
+| Required Claim | `Guest` |
+| Success Response | Code: 200 <br> Content: `List<Message(Response)> as JSON` |
+| Error Response | Code: 400 <br> Content: `Bad Request` |
+| Error Response | Code: 401 <br> Content: `Not Authorized` |
+| Error Response | Code: 403 <br> Content: `Forbidden` |
+
+Example Request:
+```csharp
+//These are all the possible filters you can add
+class MessageFilter
+	{
+		MessageType[]? types;
+		MessageSource[]? sources;
+		long? beginRange;
+		long? endRange;
+		string[]? sourceIds
+	}
+```
+
+This is how you use them:  
+`.../message/get?page=1&pageSize=20&types=Error&types=Warning&sourceIds=4&sourceIds=8`
+
+Here you will get the first 20 messages with the types `Error` and `Warning` and sourceIds `4` and `8`.
+You can add as many of these filters as you want.
+
+
+</details>
+
+---
+
+<details>
+<summary>Get Amount Messages (filters)</summary>
+
+Get the amount of messages
+
+| Name | Value |
+| --- | --- |
+| URL | `api.mcsynergy.nl/tracker/message/get/amount` |
+| Method | `GET` |
+| URL Params | `MessageFilter (see example!)` |
+| Headers | `Authorization` |
+| Required Claim | `Guest` |
+| Success Response | Code: 200 <br> Content: `Amount as float` |
+| Error Response | Code: 400 <br> Content: `Bad Request` |
+| Error Response | Code: 401 <br> Content: `Not Authorized` |
+| Error Response | Code: 403 <br> Content: `Forbidden` |
+
+Example Request:
+```csharp
+//These are all the possible filters you can add
+class MessageFilter
+	{
+		MessageType[]? types;
+		MessageSource[]? sources;
+		long? beginRange;
+		long? endRange;
+		string[]? sourceIds
+	}
+```
+
+This is how you use them:  
+`.../message/get/amount?types=Error&types=Warning&sourceIds=4&sourceIds=8`
+
+Here you will get the amount of messages with the types `Error` and `Warning` and sourceIds `4` and `8`.
+You can add as many of these filters as you want.
+
+
+</details>
+
+---
+
+<details>
+<summary>[DEPRECATED] Get All Messages (pagination)</summary>
 
 Get a list of all the messages
 
@@ -118,7 +201,7 @@ Get a list of all the messages
 ---
 
 <details>
-<summary>Get All Messages by Source (pagination)</summary>
+<summary>[DEPRECATED] Get All Messages by Source (pagination)</summary>
 
 Get a list of all the messages by source
 
@@ -139,7 +222,7 @@ Get a list of all the messages by source
 ---
 
 <details>
-<summary>Get All Messages by Source IDs (pagination)</summary>
+<summary>[DEPRECATED] Get All Messages by Source IDs (pagination)</summary>
 
 Get a list of all the messages by source IDs
 
