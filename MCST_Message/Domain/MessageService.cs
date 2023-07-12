@@ -60,10 +60,11 @@ namespace MCST_Message.Domain
 		{
             if (message.IsValid())
             {
+                var metaData = BsonSerializer.Deserialize<BsonDocument>(message.MetaData.ToString());
+                MessageDTO dto = new MessageDTO(message.Type, message.Source, message.Content, metaData, message.CreationTime, message.SourceId);
+                await repo.InsertMessage(dto);
+                message.OverrideId(dto.Id);
                 await clientWsService.NewMessageOverWS(message);
-                var metaData = BsonSerializer.Deserialize<BsonDocument>((message.MetaData).ToString());
-            
-			    await repo.InsertMessage(new MessageDTO(message.Type, message.Source, message.Content, metaData, message.CreationTime, message.SourceId));
                 await SendNotification(message);
                 return true;
             } else
@@ -88,6 +89,7 @@ namespace MCST_Message.Domain
 					Type = messageDTO.Type
 				};
                 message.OverrideCreationTime(messageDTO.CreationTime);
+                message.OverrideId(messageDTO.Id);
                 messages.Add(message);
             }
 			return messages;
@@ -110,6 +112,7 @@ namespace MCST_Message.Domain
                     Type = messageDTO.Type
                 };
                 message.OverrideCreationTime(messageDTO.CreationTime);
+                message.OverrideId(messageDTO.Id);
                 messages.Add(message);
             }
             return messages;
@@ -130,9 +133,34 @@ namespace MCST_Message.Domain
                     Type = messageDTO.Type
                 };
                 message.OverrideCreationTime(messageDTO.CreationTime);
+                message.OverrideId(messageDTO.Id);
                 messages.Add(message);
             }
             return messages;
+        }
+
+        public async Task<List<Message>> GetByFilters(int page, int pageSize, MessageFilter filters) {
+            List<MessageDTO> messageDTOs = await repo.GetMessagesByFilters(page, pageSize, filters);
+            List<Message> messages = new List<Message>();
+            foreach (var messageDTO in messageDTOs)
+            {
+                Message message = new Message
+                {
+                    SourceId = messageDTO.SourceId,
+                    Content = messageDTO.Content,
+                    MetaData = JsonSerializer.Deserialize<JsonElement>(messageDTO.MetaData.ToJson()),
+                    Source = messageDTO.Source,
+                    Type = messageDTO.Type
+                };
+                message.OverrideCreationTime(messageDTO.CreationTime);
+                message.OverrideId(messageDTO.Id);
+                messages.Add(message);
+            }
+            return messages;
+        }
+
+        public async Task<long> GetAmountByFilters(MessageFilter filters) {
+            return await repo.GetAmountByFilters(filters);
         }
     }
 }
