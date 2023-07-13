@@ -120,6 +120,21 @@ app.UseHttpsRedirection();
 
 app.UseCors(app => app.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+app.UseCors(options => options
+    .SetIsOriginAllowedToAllowWildcardSubdomains()
+    .WithOrigins(
+        "http://localhost:5173",
+        "http://localhost:8000",
+        "http://localhost:8080",
+        "https://mcsynergy.nl",
+        "https://*.mcsynergy.nl",
+        "https://josian.nl",
+        "https://*.josian.nl"
+        )
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
+
 app.UseAuthentication();
 app.UseAuthorization();
 
