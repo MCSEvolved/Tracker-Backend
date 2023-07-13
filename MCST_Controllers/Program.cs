@@ -118,7 +118,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(app => app.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseCors(options => options
     .SetIsOriginAllowedToAllowWildcardSubdomains()
