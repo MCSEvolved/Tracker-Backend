@@ -20,8 +20,6 @@ namespace MCST_Inventory.Domain
 
 		public async Task<Inventory?> RequestInventory(int computerId)
 		{
-            await clientWsService.SendRequestInventoryCommand(computerId);
-
 			InventoryDTO inventoryDTO = await repo.GetInventory(computerId);
 			if (inventoryDTO == null)
 			{

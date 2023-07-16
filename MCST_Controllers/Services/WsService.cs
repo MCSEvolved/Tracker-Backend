@@ -22,11 +22,6 @@ namespace MCST_Controller.Services
             await clientHub.Clients.All.SendAsync("NewComputer", computer);
         }
 
-        public async Task SendRequestInventoryCommand(int computerId)
-        {
-            await serverHub.Clients.All.SendAsync("RequestInventory", computerId);
-        }
-
         public async Task NewInventoryOverWS(Inventory inventory)
         {
             await clientHub.Clients.All.SendAsync("NewInventory", inventory);
