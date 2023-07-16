@@ -18,6 +18,7 @@ using MCST_Controller.Services;
 using MCST_Auth.Domain;
 using MCST_Notification.Domain;
 using Microsoft.AspNetCore.Builder;
+using MCST_Command.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -110,6 +111,8 @@ builder.Services.AddTransient<LocationRepository>();
 
 builder.Services.AddTransient<InventoryService>();
 builder.Services.AddTransient<InventoryRepository>();
+
+builder.Services.AddTransient<CommandService>();
 
 builder.Services.AddTransient<IWsService, WsService>();
 

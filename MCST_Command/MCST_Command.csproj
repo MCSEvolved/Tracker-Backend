@@ -12,4 +12,11 @@
   <ItemGroup>
     <Folder Include="Domain\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MCST_Auth\MCST_Auth.csproj" />
+    <ProjectReference Include="..\MCST_ControllerInterfaceLayer\MCST_ControllerInterfaceLayer.csproj" />
+    <ProjectReference Include="..\MCST_Enums\MCST_Enums.csproj" />
+    <ProjectReference Include="..\MCST_Models\MCST_Models.csproj" />
+    <ProjectReference Include="..\MCST_Notification\MCST_Notification.csproj" />
+  </ItemGroup>
 </Project>
