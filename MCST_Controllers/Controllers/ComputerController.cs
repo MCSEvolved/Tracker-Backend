@@ -59,7 +59,7 @@ namespace MCST_Controller.Controllers
         public async Task<IActionResult> GetBySystem([FromQuery] int systemId)
         {
             var computers = await service.GetAllComputersBySystem(systemId);
-            return computers.Count < 1 ? NotFound() : Ok(computers);
+            return Ok(computers);
         }
 
         
