@@ -114,9 +114,9 @@ Add a new inventory over websocket
 ---
 
 <details>
-<summary>Listen for new Location</summary>
+<summary>Listen for new Inventory</summary>
 
-Receive a new location when it has been sent
+Receive a new inventory when it has been sent
 
 | Name | Value |
 | --- | --- |
