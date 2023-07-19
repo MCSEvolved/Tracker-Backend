@@ -11,3 +11,4 @@ Every endpoint can be accessed by a token with an Admin Claim. If the required c
 ## [Messages](./docs/MessageDocs.md)
 ## [Locations](./docs/LocationDocs.md)
 ## [Inventories](./docs/InventoryDocs.md)
+## [Commands](./docs/CommandDocs.md)
