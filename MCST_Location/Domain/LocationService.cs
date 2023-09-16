@@ -33,6 +33,10 @@ namespace MCST_Location.Domain
         public async Task<Location> GetLocationByComputerId(int computerId)
         {
             LocationDTO locationDTO = await repo.GetLocationByComputerId(computerId);
+            if (locationDTO == null)
+            {
+                return null;
+            }
             Location location = new Location
             {
                 ComputerId = locationDTO.ComputerId,
