@@ -17,6 +17,7 @@ namespace MCST_Message.Data
             var collection = database.GetCollection<MessageDTO>("messages");
 
             _messages = collection;
+
         }
 
         private FilterDefinition<MessageDTO> GetMessageFilter(MessageFilter filters) {
