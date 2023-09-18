@@ -20,7 +20,7 @@ namespace MCST_Controller.Controllers
         [HttpGet("get/by-id")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Location>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(Policy = "IsAdmin")]
+        [Authorize(Policy = "IsGuest")]
         public async Task<IActionResult> GetLocationById([FromQuery]int computerId)
         {
             Location location = await service.GetLocationByComputerId(computerId);
