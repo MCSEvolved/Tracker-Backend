@@ -56,12 +56,15 @@ namespace MCST_Controller.Controllers
         [Authorize(Policy = "IsGuest")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Computer>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetBySystem([FromQuery] int systemId)
+        public async Task<IActionResult> GetBySystem([FromQuery] int systemId, [FromQuery] bool idsOnly = false)
         {
+            if (idsOnly)
+            {
+                var computerIds = await service.GetAllComputerIdsBySystem(systemId);
+                return Ok(computerIds);
+            }
             var computers = await service.GetAllComputersBySystem(systemId);
             return Ok(computers);
         }
-
-        
     }
 }
