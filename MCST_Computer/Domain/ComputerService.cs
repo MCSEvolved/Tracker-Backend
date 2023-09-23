@@ -81,6 +81,18 @@ namespace MCST_Computer.Domain
             }
             return computers;
         }
+        
+        public async Task<List<int>> GetAllComputerIdsBySystem(int systemId)
+        {
+            List<ComputerDTO> computerDTOs = await repo.GetAllComputersBySystem(systemId);
+            List<int> computersIds = new List<int>();
+            foreach (var computerDTO in computerDTOs)
+            {
+                computersIds.Add(computerDTO.Id);
+            }
+            return computersIds;
+        }
+        
 
         public async Task<Computer?> GetComputerById(int id)
         {

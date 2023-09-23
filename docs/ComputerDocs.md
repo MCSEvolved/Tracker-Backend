@@ -127,19 +127,19 @@ Get a computer by its ComputerId
 ---
 
 <details>
-<summary>Get Computers by System</summary>
+<summary>Get Computers(Ids) by System</summary>
 
-Get a computer by its corresponding system
+Get a computer by its corresponding system, you can also only get the IDs by passing idsOnly = true as a parameter
 
-| Name | Value |
-| --- | --- |
-| URL | `api.mcsynergy.nl/tracker/computer/get/by-system` |
-| Method | `GET` |
-| URL Params | `systemId: int` |
-| Headers | `Authorization` |
-| Required Claim | `Guest` |
-| Success Response | Code: 200 <br> Content: `List<Computer(Response)> as JSON` |
-| Error Response | Code: 401 <br> Content: `Not Authorized` |
+| Name | Value                                                                |
+| --- |----------------------------------------------------------------------|
+| URL | `api.mcsynergy.nl/tracker/computer/get/by-system`                    |
+| Method | `GET`                                                                |
+| URL Params | `systemId: int` <br> `idsOnly: bool`                                     |
+| Headers | `Authorization`                                                      |
+| Required Claim | `Guest`                                                              |
+| Success Response | Code: 200 <br> Content: `List<Computer(Response)> as JSON`           |
+| Error Response | Code: 401 <br> Content: `Not Authorized`                             |
 | Error Response | Code: 404 <br> Content: `No computers found with system: [systemId]` |
 
 </details>
