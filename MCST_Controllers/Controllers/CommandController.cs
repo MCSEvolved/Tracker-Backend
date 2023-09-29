@@ -20,11 +20,17 @@ namespace MCST_Controller.Controllers
 
         [HttpPost("execute")]
         [Authorize(Policy = "IsPlayer")]
-        public async Task<IActionResult> ExecuteCommand([FromQuery] int computerId, string command)
+        public async Task<IActionResult> ExecuteCommand([FromQuery] int[] computerIds, string command)
         {
-            await service.ExecuteCommand(new ComputerCommand(computerId, command));
-            return Ok();
+            foreach (var computerId in computerIds)
+            {
+                await service.ExecuteCommand(new ComputerCommand(computerId, command));
+            }
+            
+            return Ok($"Command '{command}' is send to turtle(s)");
         }
+        
+        
         
     }
 }
